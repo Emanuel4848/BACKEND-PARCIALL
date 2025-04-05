@@ -4,18 +4,10 @@ import { ProductController } from '../controllers/ProductController';
 const router = Router();
 const controller = new ProductController();
 
-
-const wrapAsync = (fn: Function) => {
-  return (req: any, res: any, next: any) => {
-    fn(req, res, next).catch(next);
-  };
-};
-
-
-router.get('/', wrapAsync(controller.findAll)); 
-router.get('/findById', wrapAsync(controller.findById)); 
-router.post('/', wrapAsync(controller.create)); 
-router.put('/:id', wrapAsync(controller.update)); 
-router.delete('/:id', wrapAsync(controller.delete)); 
+router.get('/', controller.findAll.bind(controller));
+router.get('/findById', controller.findById.bind(controller)); //inge con este es el de query params y lo probe en postman y si dio 
+router.post('/', controller.create.bind(controller));
+router.put('/:id', controller.update.bind(controller));   //igual este lo probe con postman que en frontend no pedia opcion para actualizar
+router.delete('/:id', controller.delete.bind(controller));
 
 export default router;
